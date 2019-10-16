@@ -1,42 +1,191 @@
-<!DOCTYPE>
+<!DOCTYPE >
 <html>
-    <head>
-        <title>Launch Checklist</title>
-        <link rel = "stylesheet" type = "text/css" href = "styles.css" />
-        <script src = "script.js"></script>
-    </head>
-    <body>
-        <h1>Launch Checklist Form</h1>
-        <div id="missionTarget">
-            <!-- Fetch some planetary data -->
-        </div> 
-        <div id="launchForm">
-            <form>
-                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
-                    <label>Pilot Name <input type="text" name="pilotName" id="pilotName"/></label>
-                </div>
-                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
-                    <label>Co-pilot Name <input type="text" name="copilotName"/></label>
-                </div>
-                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
-                    <label>Fuel Level (gal) <input type="text" name="fuelLevel"/></label> 
-                </div>
-                <div style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;">
-                    <label>Cargo Weight (lbs) <input type="text" name="cargoWeight"/></label>
-                </div>
-                <button id="formSubmit">Submit</button>
-            </form>
+  <head>
+
+      <style>
+      h3 {
+        color: red;
+     }
+     </style>
+
+    <title>Launch Checklist</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="script.js"></script>
+  </head>
+  <body>
+    <h1>Launch Checklist Form</h1>
+    <div id="missionTarget">
+<!-- Fetch some planetary data -->
+
+
+
+    </div>
+
+    <div id="launchForm">
+      <form>
+        <div
+          style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;"
+        >
+          <label
+            >Pilot Name <input type="text" name="pilotName" id="pilotName"
+          /></label>
         </div>
-        <div id="launchStatusCheck">
-            <h2 id="launchStatus">Awaiting Information Before Launch</h2>
-            <div  id="faultyItems">
-                <ol>
-                    <li id="pilotStatus">Pilot Ready</li>
-                    <li id="copilotStatus">Co-pilot Ready</li>
-                    <li id="fuelStatus">Fuel level high enough for launch</li>
-                    <li id="cargoStatus">Cargo weight low enough for launch</li>
-                </ol>
-            </div>
-        </div>    
-    </body>
+        <div
+          style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;"
+        >
+          <label>Co-pilot Name <input type="text" name="copilotName"/></label>
+        </div>
+        <div
+          style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;"
+        >
+          <label>Fuel Level (L) <input type="text" name="fuelLevel"/></label>
+        </div>
+        <div
+          style="display:flex; flex-direction: row; justify-content: center; align-items: center; margin: 8 0;"
+        >
+          <label
+            >Cargo Weight (kg) <input type="text" name="cargoWeight"
+          /></label>
+        </div>
+        <button id="formSubmit">Submit</button>
+      </form>
+    </div>
+
+    <script>
+      window.addEventListener("load", function() {
+        let form = document.querySelector("form");
+        form.addEventListener("submit", function(event) {
+          let pilotNameInput = document.querySelector("input[name=pilotName]");
+          let copilotNameInput = document.querySelector(
+            "input[name=copilotName]"
+          );
+          let fuelLevelInput = document.querySelector("input[name=fuelLevel]");
+          let cargoWeightInput = document.querySelector(
+            "input[name=cargoWeight]"
+          );
+
+          if (fuelLevelInput.value === "" || cargoWeightInput.value === "" || pilotNameInput.value === "" || copilotNameInput.value === ""){
+              // stop the form submission
+              alert("Cadet: You Need To Fill Out All Fields");
+              event.preventDefault();
+              return;
+          }
+
+          if (isNaN(pilotNameInput.value) === false ){
+              // stop the form submission
+              alert("Cadet: Your Pilot Name -- Is Not a String");
+              event.preventDefault();
+          }
+
+          if (isNaN(copilotNameInput.value) === false ){
+              // stop the form submission
+              alert("Cadet: Your Co Pilot Name -- Is Not a String");
+              event.preventDefault();
+          }
+
+          if (isNaN(fuelLevelInput.value)){
+              // stop the form submission
+              alert("Cadet: Your Fuel Level Input -- Is Not a Number");
+              event.preventDefault();
+          }
+
+          if (isNaN(cargoWeightInput.value)){
+              // stop the form submission
+              alert("Cadet: Your Cargo Weight Input -- Is Not a Number");
+              event.preventDefault();
+          }
+
+
+          function updateStatus(run){ 
+            if ((fuelLevelInput.value) < 10000 && cargoWeightInput.value > 10000) { 
+              let launchStatus = document.querySelectorAll("h2"); 
+              let listItems = document.getElementById("pilotStatus"); 
+              document.getElementById("pilotStatus").style.visibility = "visible"; 
+              let coPilotItems = document.getElementById("copilotStatus");
+              document.getElementById("copilotStatus").style.visibility = "visible"; 
+              let fuelItems = document.getElementById("fuelStatus");
+              document.getElementById("fuelStatus").style.visibility = "visible"; 
+              let cargoItems = document.getElementById("cargoStatus");
+              document.getElementById("cargoStatus").style.visibility = "visible"; 
+              let paragraph = document.getElementById("launchStatus");
+              launchStatus[0].innerHTML = `SHUTTLE NOT READY FOR LAUNCH`;
+              paragraph.style.color = "red";
+              listItems.innerHTML = `Pilot ${pilotNameInput.value} is ready for launch`;
+              coPilotItems.innerHTML = `Pilot ${copilotNameInput.value} is ready for launch`;
+              fuelItems.innerHTML = `Fuel Level to LOW for Launch`;
+              cargoItems.innerHTML = `Cargo Mass to HIGH for launch`;}
+
+
+              else if ((fuelLevelInput.value) < 10000 && cargoWeightInput.value < 10000) { 
+                let launchStatus = document.querySelectorAll("h2"); 
+              let listItems = document.getElementById("pilotStatus"); 
+              document.getElementById("pilotStatus").style.visibility = "visible";
+              let coPilotItems = document.getElementById("copilotStatus");
+              document.getElementById("copilotStatus").style.visibility = "visible"; 
+              let fuelItems = document.getElementById("fuelStatus");
+              document.getElementById("fuelStatus").style.visibility = "visible"; 
+              let cargoItems = document.getElementById("cargoStatus");
+              document.getElementById("cargoStatus").style.visibility = "visible";
+              let paragraph = document.getElementById("launchStatus");
+              launchStatus[0].innerHTML = `SHUTTLE NOT READY FOR LAUNCH`;
+              paragraph.style.color = "red";
+              listItems.innerHTML = `Pilot ${pilotNameInput.value} is ready for launch`;
+              coPilotItems.innerHTML = `Pilot ${copilotNameInput.value} is ready for launch`;
+              fuelItems.innerHTML = `Fuel Level to LOW for Launch`;
+              cargoItems.innerHTML = `Cargo Mass ok for launch`;}
+
+
+              else if ((cargoWeightInput.value) > 10000 && fuelLevelInput.value > 10000) { 
+                let launchStatus = document.querySelectorAll("h2"); 
+              let listItems = document.getElementById("pilotStatus"); 
+              document.getElementById("pilotStatus").style.visibility = "visible";
+              let coPilotItems = document.getElementById("copilotStatus");
+              document.getElementById("copilotStatus").style.visibility = "visible"; 
+              let fuelItems = document.getElementById("fuelStatus");
+              document.getElementById("fuelStatus").style.visibility = "visible"; 
+              let cargoItems = document.getElementById("cargoStatus");
+              document.getElementById("cargoStatus").style.visibility = "visible";
+              let paragraph = document.getElementById("launchStatus");
+              launchStatus[0].innerHTML = `SHUTTLE NOT READY FOR LAUNCH`;
+              paragraph.style.color = "red";
+              listItems.innerHTML = `Pilot ${pilotNameInput.value} is ready for launch`;
+              coPilotItems.innerHTML = `Pilot ${copilotNameInput.value} is ready for launch`;
+              fuelItems.innerHTML = `Fuel Level ok for Launch`;
+              cargoItems.innerHTML = `Cargo Mass to HIGH for launch`;}
+
+
+              else if ((cargoWeightInput.value) < 10000 && fuelLevelInput.value > 10000) { 
+                
+                  let launchStatus = document.querySelectorAll("h2"); 
+                  let listItems = document.querySelectorAll("li"); 
+                  let paragraph = document.getElementById("launchStatus");
+              launchStatus[0].innerHTML = `SHUTTLE IS READY FOR LAUNCH`;
+              paragraph.style.color = "green";
+                  
+                } 
+                } 
+                  updateStatus("thescriptran"); 
+                  event.preventDefault();
+                  }); 
+                  }); 
+    </script>
+
+
+
+
+
+
+    <div id="launchStatusCheck">
+      <h2 id="launchStatus">Awaiting Information Before Launch</h2>
+      <div id="faultyItems">
+        <ol>
+          <li id="pilotStatus">Pilot Ready</li>
+          <li id="copilotStatus">Co-pilot Ready</li>
+          <li id="fuelStatus">Fuel level high enough for launch</li>
+          <li id="cargoStatus">Cargo weight low enough for launch</li>
+        </ol>
+
+      </div>
+    </div>
+  </body>
 </html>
